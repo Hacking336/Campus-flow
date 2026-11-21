@@ -1,0 +1,15 @@
+com/campusflow/model/UniformOrder.class
+com/campusflow/controller/ApiController.class
+com/campusflow/config/DatabaseConfig.class
+com/campusflow/model/Document.class
+com/campusflow/repository/DocumentRepository.class
+com/campusflow/model/Student.class
+com/campusflow/repository/PeInventoryRepository.class
+com/campusflow/repository/UniformOrderRepository.class
+com/campusflow/model/PeInventory.class
+com/campusflow/controller/AuthenticationController.class
+com/campusflow/CampusFlowApplication.class
+com/campusflow/model/User.class
+com/campusflow/repository/StudentRepository.class
+com/campusflow/repository/UserRepository.class
+com/campusflow/App.class

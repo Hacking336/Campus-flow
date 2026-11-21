@@ -1,0 +1,10 @@
+server:
+  port: 4318
+
+spring:
+  datasource:
+    url: jdbc:sqlite:data/campusflow.db
+    driver-class-name: org.sqlite.JDBC
+    schema: classpath:data.sql
+    data: classpath:data.sql
+    initialization-mode: always
