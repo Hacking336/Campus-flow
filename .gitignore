@@ -1,0 +1,10 @@
+node_modules
+dist
+.tools
+data/*.db
+data/*.db-shm
+data/*.db-wal
+.DS_Store
+*.log
+.freebuff/
+.logs/

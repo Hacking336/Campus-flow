@@ -1,0 +1,123 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#4f46e5" />
+    <meta
+      name="description"
+      content="CampusFlow — track student document requests and uniform orders in one place."
+    />
+    <title>CampusFlow · Document &amp; Uniform Pick-up</title>
+    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%234f46e5'/%3E%3Cpath d='M9 11h14M9 16h9M9 21h11' stroke='white' stroke-width='2.4' stroke-linecap='round'/%3E%3C/svg%3E" />
+    <script>
+      (function () {
+        try {
+          var pref = localStorage.getItem("campusflow.theme") || "system";
+          var dark = pref === "dark" || (pref === "system" && window.matchMedia("(prefers-color-scheme: dark)").matches);
+          document.documentElement.dataset.theme = dark ? "dark" : "light";
+        } catch (e) {}
+      })();
+    </script>
+    <script>
+      /*
+       * index.html is the Vite entry point. Opened straight from disk it cannot
+       * start the tracker: browsers refuse to load a module script over file://,
+       * and Chrome blocks requests from a file:// page to localhost. So instead
+       * of leaving a blank page behind a Finder double-click, explain the one
+       * step that works and link straight to the running app.
+       */
+      (function () {
+        if (location.protocol !== "file:") return;
+
+        var APP_URL = "http://localhost:4317/";
+        var MARK =
+          "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%234f46e5'/%3E%3Cpath d='M9 11h14M9 16h9M9 21h11' stroke='white' stroke-width='2.4' stroke-linecap='round'/%3E%3C/svg%3E";
+
+        var css = [
+          ":root{color-scheme:dark}",
+          "@media (prefers-color-scheme: light){:root{color-scheme:light}}",
+          "html,body{margin:0;min-height:100%}",
+          "body{display:grid;place-items:center;padding:32px 20px;font-family:system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;",
+          "background:#070c18;color:#e2e8f0}",
+          "@media (prefers-color-scheme: light){body{background:#f5f6fb;color:#1e293b}}",
+          ".cf-launch{width:min(468px,100%);padding:30px 30px 26px;border:1px solid #1e293b;border-radius:22px;",
+          "background:#0e1729;box-shadow:0 30px 70px -40px rgba(2,6,23,.9)}",
+          "@media (prefers-color-scheme: light){.cf-launch{border-color:#e2e8f0;background:#fff;box-shadow:0 30px 70px -46px rgba(15,23,42,.35)}}",
+          ".cf-brand{display:flex;align-items:center;gap:12px;margin-bottom:22px}",
+          ".cf-brand img{width:46px;height:46px;border-radius:13px}",
+          ".cf-brand strong{display:block;font-size:18px;letter-spacing:-.01em}",
+          ".cf-brand small{display:block;margin-top:1px;font-size:11.5px;color:#94a3b8}",
+          ".cf-eyebrow{display:inline-flex;align-items:center;gap:6px;margin-bottom:10px;padding:4px 9px;border-radius:999px;",
+          "background:rgba(99,102,241,.16);color:#a5b4fc;font-size:11px;font-weight:600;letter-spacing:.08em;text-transform:uppercase}",
+          "@media (prefers-color-scheme: light){.cf-eyebrow{background:#eef2ff;color:#4338ca}}",
+          ".cf-launch h1{margin:0 0 8px;font-size:21px;line-height:1.25;letter-spacing:-.02em}",
+          ".cf-launch p{margin:0 0 14px;font-size:13px;line-height:1.65;color:#94a3b8}",
+          "@media (prefers-color-scheme: light){.cf-launch p{color:#64748b}}",
+          ".cf-launch p code{padding:1px 5px;border-radius:5px;background:rgba(148,163,184,.16);color:#c7d2fe;",
+          "font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:11.5px}",
+          "@media (prefers-color-scheme: light){.cf-launch p code{background:#eef2ff;color:#4338ca}}",
+          ".cf-steps{margin:0 0 16px;padding:0;list-style:none;display:grid;gap:9px}",
+          ".cf-steps li{display:flex;gap:10px;font-size:13px;line-height:1.5;color:#cbd5e1}",
+          "@media (prefers-color-scheme: light){.cf-steps li{color:#334155}}",
+          ".cf-step-no{flex:none;display:grid;place-items:center;width:20px;height:20px;margin-top:1px;border-radius:999px;",
+          "background:#1e293b;color:#a5b4fc;font-size:11px;font-weight:700}",
+          "@media (prefers-color-scheme: light){.cf-step-no{background:#eef2ff;color:#4338ca}}",
+          ".cf-cmd{display:block;margin:0 0 18px;padding:12px 14px;border:1px dashed #334155;border-radius:12px;",
+          "background:#080f1e;color:#c7d2fe;font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:12.5px;",
+          "line-height:1.7;white-space:pre-wrap;word-break:break-word}",
+          "@media (prefers-color-scheme: light){.cf-cmd{border-color:#cbd5e1;background:#f8fafc;color:#4338ca}}",
+          ".cf-btn{display:flex;align-items:center;justify-content:center;gap:8px;padding:12px 18px;border-radius:11px;",
+          "background:#6366f1;color:#fff;font-size:13.5px;font-weight:600;text-decoration:none}",
+          ".cf-btn:hover{background:#4f46e5}",
+          ".cf-hint{margin:16px 0 0;padding:11px 13px;border-radius:11px;background:rgba(148,163,184,.09);",
+          "font-size:12px;line-height:1.55;color:#94a3b8}",
+          "@media (prefers-color-scheme: light){.cf-hint{background:#f1f5f9;color:#64748b}}",
+          ".cf-foot{margin:18px 0 0;font-size:11.5px;color:#64748b;text-align:center}"
+        ].join("");
+
+        function start() {
+          var style = document.createElement("style");
+          style.textContent = css;
+          document.head.appendChild(style);
+
+          document.title = "CampusFlow · Start it from this folder";
+          document.body.innerHTML =
+            '<main class="cf-launch">' +
+            '<div class="cf-brand">' +
+            '<img alt="" src="' + MARK + '" />' +
+            "<div><strong>CampusFlow</strong><small>Document &amp; uniform pick-up tracker</small></div>" +
+            "</div>" +
+            '<span class="cf-eyebrow">Opened from Finder</span>' +
+            "<h1>Start CampusFlow, then open the link</h1>" +
+            "<p>This file is the project&rsquo;s entry point, not a page you can double-click. Browsers refuse to " +
+            "run an app&rsquo;s scripts or reach its local database over <code>file://</code>, which is why this tab " +
+            "looks empty. The tracker runs from the server that ships in this folder.</p>" +
+            '<ol class="cf-steps">' +
+            '<li><span class="cf-step-no">1</span><span>In this folder, double-click <strong>Start&nbsp;CampusFlow.command</strong>. ' +
+            "A Terminal window opens and the app appears in your browser by itself.</span></li>" +
+            '<li><span class="cf-step-no">2</span><span>Keep that Terminal window open while you use CampusFlow. ' +
+            "Closing it, or pressing <strong>Ctrl&nbsp;C</strong>, stops the app.</span></li>" +
+            "</ol>" +
+            '<code class="cf-cmd">cd "Campus Flow"\n./start.sh</code>' +
+            '<a class="cf-btn" href="' + APP_URL + '">Open CampusFlow →</a>' +
+            '<p class="cf-hint">Already started the server? The button above opens it at ' +
+            "<strong>localhost:4317</strong>. If the browser says the site can&rsquo;t be reached, the server isn&rsquo;t " +
+            "running yet — go back to step 1.</p>" +
+            '<p class="cf-foot">CampusFlow · Capstone prototype · Data stays on this device.</p>' +
+            "</main>";
+        }
+
+        if (document.readyState === "loading") {
+          document.addEventListener("DOMContentLoaded", start);
+        } else {
+          start();
+        }
+      })();
+    </script>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>
